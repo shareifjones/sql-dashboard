@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add Sales Record</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #0f172a;
+            color: #e5e5e5;
+            padding: 40px 20px;
+        }
+        .container { max-width: 600px; margin: 0 auto; }
+        h1 { font-size: 2rem; margin-bottom: 8px; color: white; }
+        p.subtitle { color: #888; margin-bottom: 40px; }
+        .card {
+            background: #1e293b;
+            border-radius: 8px;
+            padding: 32px;
+            border: 1px solid #222;
+        }
+        label { display: block; font-weight: bold; margin-bottom: 8px; color: #888; font-size: 0.9rem; }
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            background: #0f172a;
+            border: 1px solid #333;
+            border-radius: 4px;
+            color: white;
+            font-size: 1rem;
+        }
+        button {
+            background-color: #06b6d4;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            cursor: pointer;
+            width: 100%;
+        }
+        button:hover { background-color: #0891b2; }
+        a { color: #06b6d4; text-decoration: none; display: block; margin-bottom: 24px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Add Sales Record</h1>
+        <p class="subtitle">Insert a new record into the database</p>
+        <a href="/">← Back to Dashboard</a>
+        <div class="card">
+            <form method="POST">
+                <label>Month</label>
+                <input type="text" name="month" placeholder="e.g. January">
+                <label>Year</label>
+                <input type="number" name="year" placeholder="e.g. 2026">
+                <label>Revenue</label>
+                <input type="number" name="revenue" placeholder="e.g. 50000">
+                <label>Expenses</label>
+                <input type="number" name="expenses" placeholder="e.g. 30000">
+                <label>Customers</label>
+                <input type="number" name="customers" placeholder="e.g. 150">
+                <button type="submit">Add Record</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

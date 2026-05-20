@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Business Reports Dashboard</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #0f172a;
+            color: #e5e5e5;
+            padding: 40px 20px;
+        }
+        .container { max-width: 1100px; margin: 0 auto; }
+        h1 { font-size: 2rem; margin-bottom: 8px; color: white; }
+        p.subtitle { color: #888; margin-bottom: 40px; }
+        h2 { font-size: 1.3rem; margin-bottom: 24px; color: white; }
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin-bottom: 40px;
+        }
+        .stat-card {
+            background: #1e293b;
+            border-radius: 8px;
+            padding: 24px;
+            text-align: center;
+            border: 1px solid #222;
+        }
+        .stat-card h3 { color: #888; font-size: 0.85rem; margin-bottom: 8px; }
+        .stat-card p { font-size: 1.8rem; font-weight: bold; color: white; }
+        .card {
+            background: #1e293b;
+            border-radius: 8px;
+            padding: 24px;
+            margin-bottom: 24px;
+            border: 1px solid #222;
+        }
+        img { width: 100%; }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.95rem;
+        }
+        th {
+            text-align: left;
+            padding: 10px;
+            color: #888;
+            border-bottom: 1px solid #333;
+        }
+        td { padding: 10px; border-bottom: 1px solid #222; }
+        tr:hover { background-color: #263548; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Business Reports Dashboard</h1>
+        <p class="subtitle">Live data from PostgreSQL database — <a href="/add" style="color:#06b6d4;">Add Record</a></p>
+
+        <div class="stats">
+            <div class="stat-card">
+                <h3>TOTAL REVENUE</h3>
+                <p>${{ "{:,.0f}".format(totals.total_revenue) }}</p>
+            </div>
+            <div class="stat-card">
+                <h3>TOTAL EXPENSES</h3>
+                <p>${{ "{:,.0f}".format(totals.total_expenses) }}</p>
+            </div>
+            <div class="stat-card">
+                <h3>TOTAL PROFIT</h3>
+                <p>${{ "{:,.0f}".format(totals.total_profit) }}</p>
+            </div>
+            <div class="stat-card">
+                <h3>AVG MONTHLY CUSTOMERS</h3>
+                <p>{{ totals.avg_monthly_customers }}</p>
+            </div>
+        </div>
+        <div class="card">
+            <h2>Monthly Revenue</h2>
+            <img src="data:image/png;base64,{{ revenue_chart }}">
+        </div>
+
+        <div class="card">
+            <h2>Monthly Profit Trend</h2>
+            <img src="data:image/png;base64,{{ profit_chart }}">
+        </div>
+
+        <div class="card">
+            <h2>Customer Growth</h2>
+            <img src="data:image/png;base64,{{ customers_chart }}">
+        </div>
+
+        <div class="card">
+            <h2>Monthly Breakdown</h2>
+            <table>
+                <tr>
+                    <th>Month</th>
+                    <th>Revenue</th>
+                    <th>Expenses</th>
+                    <th>Profit</th>
+                    <th>Customers</th>
+                </tr>
+                {% for row in sales_df.itertuples() %}
+                <tr>
+                    <td>{{ row.month }}</td>
+                    <td>${{ "{:,.0f}".format(row.revenue) }}</td>
+                    <td>${{ "{:,.0f}".format(row.expenses) }}</td>
+                    <td>${{ "{:,.0f}".format(row.revenue - row.expenses) }}</td>
+                    <td>{{ row.customers }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+
+        <div class="card">
+            <h2>Department Overview</h2>
+            <table>
+                <tr>
+                    <th>Department</th>
+                    <th>Budget</th>
+                    <th>Headcount</th>
+                </tr>
+                <!-- loops through every row in the DataFrame one at a time. Each row becomes an object called row. -->
+                {% for row in dept_df.itertuples() %}
+                <tr>
+                    <td>{{ row.name }}</td>
+                    <td>${{ "{:,.0f}".format(row.budget) }}</td>
+                    <td>{{ row.headcount }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+
+    </div>
+</body>
+</html>
